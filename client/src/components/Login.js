@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/Auth.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,30 +10,33 @@ export default function Login() {
 
   const login = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        { email, password }
-      );
+      const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
-    } catch (err) {
-      alert("Invalid Login");
+    } catch {
+      alert("Invalid Login ❌");
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <input placeholder="Email" onChange={e => setEmail(e.target.value)} />
-      <br />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={e => setPassword(e.target.value)}
-      />
-      <br />
+    <div className="auth-container">
+      <h2>Welcome Back</h2>
+
+      <div className="input-box">
+        <input placeholder=" " onChange={e => setEmail(e.target.value)} />
+        <label>Email Address</label>
+      </div>
+
+      <div className="input-box">
+        <input type="password" placeholder=" " onChange={e => setPassword(e.target.value)} />
+        <label>Password</label>
+      </div>
+
       <button onClick={login}>Login</button>
-      <p onClick={() => navigate("/register")}>New User? Register</p>
+
+      <p className="auth-link" onClick={() => navigate("/register")}>
+        New User? Register
+      </p>
     </div>
   );
 }
